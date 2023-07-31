@@ -35,8 +35,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin(); // formLogin 인증 방식을 사용하도록 설정
         http
                 .sessionManagement()
-                .maximumSessions(1) //최대 허용 가능 세션 수, -1 : 무제한 로그인 세션 허용
-                .maxSessionsPreventsLogin(true) // 동시 로그인 차단함, false : 기존 세션 만료(default)
-                ;
+                .sessionFixation().newSession() // 사용자가 인증 성공하면 새로운 세션이 생성됨, 이전 세션에 사용하던 세션정보를 사용할 수 없음
+                //.sessionFixation().changeSessionId() // 사용자가 인증 성공하면, 기존 사용자의 세션에 sessionId만 변경됨, 3.1 이상
+                //.sessionFixation().migrateSession() // 사용자가 인증 성공하면, 기존 사용자의 세션에 sessionId만 변경됨, 3.1 이하
+                //.sessionFixation().none() //세션 고정 보호를 하지 않음
+        ;
     }
 }
