@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -37,25 +38,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .antMatcher("/admin/**") // 내부적으로 AntPathRequestMatcher 가 생성된다.
                 .authorizeRequests()// 인증 요청
-                .anyRequest().authenticated() // 인증 받아야함
-                .and()
-                .httpBasic();
-
-    }
-}
-
-@Configuration(proxyBeanMethods = false)
-@Order(1)
-class SecurityConfig2 extends WebSecurityConfigurerAdapter {
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+                .anyRequest().authenticated() ;// 인증 받아야함
         http
-                // 딱히 설정을 안해서 AnyRequestMatcher 가 생성된다.
-                .authorizeRequests()
-                .anyRequest().permitAll() //인증 받지 않아도 접근 가능
-                .and()
-                .formLogin(); //인증 방식은 form 로그인 방식
+                .formLogin()
+                ;
+        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+
     }
 }
+
+
