@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/").permitAll() //webingore과 다르게 permitAll은 보안 필터를 거쳐서 확인함
+                .antMatchers("/", "/users").permitAll() //webingore과 다르게 permitAll은 보안 필터를 거쳐서 확인함
                 .antMatchers("/mypage").hasRole("USER")
                 .antMatchers("/messages").hasRole("MANAGER")
                 .antMatchers("/config").hasRole("ADMIN")
