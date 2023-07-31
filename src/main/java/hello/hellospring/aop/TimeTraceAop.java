@@ -1,4 +1,4 @@
-package hello.hellospring.app;
+package hello.hellospring.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

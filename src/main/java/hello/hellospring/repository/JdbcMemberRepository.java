@@ -13,7 +13,7 @@ public class JdbcMemberRepository implements MemberRepository{
 
     private final DataSource dataSource;
 
-    public JdbcMemberRepository(DataSource dataSource) {
+    public JdbcMemberRepository(DataSource dataSource) { //주입
         this.dataSource = dataSource;
     }
 

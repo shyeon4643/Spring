@@ -28,7 +28,9 @@ public class JpaMemberRepository implements MemberRepository {
 
     @Override
     public Optional<Member> findByName(String name){
-       List<Member> result = em.createQuery("select m from Member m where m.name=:name",Member.class).setParameter("name",name).getResultList();
+       List<Member> result = em.createQuery("select m from Member m where m.name=:name",Member.class) //콜론(:)으로 파라미터 이름과 위치를 지정하고 setParameter로 파라미터를 바인딩 시킨다.
+                .setParameter("name",name)
+               .getResultList(); //결과가 없으면 빈 리스트 반환, 빈 collection이 반환되기 때문에, nullPoiontException에 대한 걱정은 안 해도 된다.
        return result.stream().findAny();
     }
 
