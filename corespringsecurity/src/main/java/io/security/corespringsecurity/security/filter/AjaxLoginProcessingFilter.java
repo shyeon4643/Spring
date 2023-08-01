@@ -14,9 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
 public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingFilter {
 
-    //
+
     private ObjectMapper objectMapper = new ObjectMapper();
 
     public AjaxLoginProcessingFilter() {
@@ -35,7 +36,7 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
         if(StringUtils.isEmpty(accountDto.getUsername()) || StringUtils.isEmpty(accountDto.getPassword())){ //값이 없거나 password가 값이 없으면 인증하면 안되기 때문에 예외발생 처리
             throw new IllegalArgumentException("Username or Passoword is empty");
         }
-
+        //AjaxLoginProcessingFilter가 동작해 사용자의 username과 password 정보가 담긴 Ajax 인증 객체가 생성
         //AuthenticationManager에게 인증 객체(AjaxAuthenticationToken) 전달
         //인증 받기 전 이므로 AjaxAuthenticationToken의 첫 번째 생성자를 사용해 AjaxAuthenticationToken 객체를 생성해 AuthenticationManager에게 인증 처리를 위임
         AjaxAuthenticationToken ajaxAuthenticationToken = new AjaxAuthenticationToken(accountDto.getUsername(), accountDto.getPassword());
