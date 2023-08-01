@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -23,8 +24,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private AuthenticationDetailsSource authenticationDetailsSource;
-
+    private AuthenticationDetailsSource formWebAuthenticationDetails;
+    @Autowired
+    private AuthenticationSuccessHandler formAuthenticationSuccessHandler;
   @Autowired
   private UserDetailsService userDetailsService; //우리가 만든 UserDetailsService 사용
 
@@ -63,7 +65,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login_proc")
-                .authenticationDetailsSource(authenticationDetailsSource)//이것을 통해서 formWebAuthenticationDetails 생성
+                .authenticationDetailsSource(formWebAuthenticationDetails)//이것을 통해서 formWebAuthenticationDetails 생성
+                .successHandler(formAuthenticationSuccessHandler)
                 .defaultSuccessUrl("/")
                 .permitAll()
                 ;
