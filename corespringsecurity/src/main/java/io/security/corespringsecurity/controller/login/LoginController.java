@@ -36,7 +36,13 @@ public class LoginController {
 
         return "redirect:/login";
     }
-
+    @RequestMapping(value="/api/login")
+    public String ajaxLogin(@RequestParam(value = "error", required = false) String error,
+                            @RequestParam(value = "exception", required = false) String exception, Model model){
+        model.addAttribute("error",error);
+        model.addAttribute("exception",exception);
+        return "user/login/login";
+    }
     @GetMapping(value="/denied")
     public String accessDenied(@RequestParam(value = "exception", required = false) String exception, Principal principal, Model model) throws Exception {
 
