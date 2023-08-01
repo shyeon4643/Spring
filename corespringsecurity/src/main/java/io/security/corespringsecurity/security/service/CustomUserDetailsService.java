@@ -1,6 +1,6 @@
 package io.security.corespringsecurity.security.service;
 
-import io.security.corespringsecurity.domain.Account;
+import io.security.corespringsecurity.domain.entity.Account;
 import io.security.corespringsecurity.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,7 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService { //스프�
         //사용자 권한정보 생성
         //유저 이름으로 계정을 찾은 후, 권한을 SimpleGrantedAuthority로 부여
         List<GrantedAuthority> roles = new ArrayList<>();
-        roles.add(new SimpleGrantedAuthority(account.getRole()));
+        //roles.add(new SimpleGrantedAuthority(account.getRole()));
 
         //AccountContext라는 곳인데 스프링 기본 User를 가져와서 구현
         AccountContext accountContext = new AccountContext(account, roles);
