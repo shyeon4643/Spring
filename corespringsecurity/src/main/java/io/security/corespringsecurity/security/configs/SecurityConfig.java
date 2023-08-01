@@ -1,5 +1,7 @@
 package io.security.corespringsecurity.security.configs;
 
+import io.security.corespringsecurity.security.common.FormAuthenticationDetailsSource;
+import io.security.corespringsecurity.security.handler.FormAccessDeniedHandler;
 import io.security.corespringsecurity.security.provider.FormAuthenticationProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private AuthenticationDetailsSource formWebAuthenticationDetails;
+    private FormAuthenticationDetailsSource formWebAuthenticationDetails;
     @Autowired
     private AuthenticationSuccessHandler formAuthenticationSuccessHandler;
 
@@ -43,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
@@ -69,11 +72,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login_proc")
-                .authenticationDetailsSource(formWebAuthenticationDetails)//이것을 통해서 formWebAuthenticationDetails 생성
+                /*
+                  authenticationDetailsSource로 작성하게 되면 에러가 발생하는데,
+                  FormLoginConfigurer<HttpSecurity>가 리턴되고, authenticationDetailsSource는 FormLoginConfigurer가 리턴된다.
+                  api가 실행되고 나서 리턴되는 객체가 HttpSecurity타입이어여 하는데,
+                  authenticationDetailsSource는 제네릭이 적용되지 않아서 최상위 인터페이스인 SecurityBuilder 타입의 객체가 리턴되어서 발생하는 문제이다.
+                * */
+                .authenticationDetailsSource(formWebAuthenticationDetails)
                 .successHandler(formAuthenticationSuccessHandler)
                 .failureHandler(formAuthenticationFailurHandler)
                 .defaultSuccessUrl("/")
                 .permitAll()
+        .and()
+                .exceptionHandling()
+                .accessDeniedHandler(accessDeniedHandler())
                 ;
+    }
+
+    @Bean
+    public FormAccessDeniedHandler accessDeniedHandler() {
+      FormAccessDeniedHandler accessDeniedHandler = new FormAccessDeniedHandler();
+      accessDeniedHandler.setErrorPage("/denied");
+      return accessDeniedHandler;
     }
 }
