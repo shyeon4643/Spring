@@ -26,15 +26,18 @@ public class CustomUserDetailsService implements UserDetailsService { //스프�
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Account account = userRepository.findByUsername(username);
+        Account account = userRepository.findByUsername(username); // 사용자 정보가 있으면 Account 객체를 얻음
 
-        if(account == null){
+        if(account == null){ // 사용자 정보가 없으면 예외처리
             throw new UsernameNotFoundException("UsernameNotFoundException");
         }
 
+        //사용자 권한정보 생성
+        //유저 이름으로 계정을 찾은 후, 권한을 SimpleGrantedAuthority로 부여
         List<GrantedAuthority> roles = new ArrayList<>();
         roles.add(new SimpleGrantedAuthority(account.getRole()));
 
+        //AccountContext라는 곳인데 스프링 기본 User를 가져와서 구현
         AccountContext accountContext = new AccountContext(account, roles);
 
         return accountContext;
