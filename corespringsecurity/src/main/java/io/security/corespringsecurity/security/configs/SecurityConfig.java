@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -29,15 +29,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      auth.authenticationProvider(authenticationProvider());
   }
 
-  @Bean
-  public AuthenticationProvider authenticationProvider() {
-      return new CustomAuthenticationProvider();
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Bean
-    // Service에서 비밀번호를 암호화할 수 있도록 Bean으로 등록
-    public PasswordEncoder passwordEncoder() { //패스워드 암호화 해줌
-        return new BCryptPasswordEncoder();
+    public AuthenticationProvider authenticationProvider(){
+        return new CustomAuthenticationProvider(passwordEncoder());
     }
 
     @Override
@@ -50,13 +49,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/users").permitAll() //webingore과 다르게 permitAll은 보안 필터를 거쳐서 확인함
+                .antMatchers("/", "/users","/error").permitAll() //webingore과 다르게 permitAll은 보안 필터를 거쳐서 확인함
                 .antMatchers("/mypage").hasRole("USER")
                 .antMatchers("/messages").hasRole("MANAGER")
                 .antMatchers("/config").hasRole("ADMIN")
                 .anyRequest().authenticated()
 
         .and()
-                .formLogin();
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/login_proc")
+                .defaultSuccessUrl("/")
+                .permitAll()
+                ;
     }
 }

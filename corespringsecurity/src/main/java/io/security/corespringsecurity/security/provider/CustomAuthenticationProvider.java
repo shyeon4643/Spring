@@ -19,9 +19,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @Autowired
+
     private PasswordEncoder passwordEncoder;
 
+
+    public  CustomAuthenticationProvider(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
     @Override
     public Authentication authenticate(Authentication authentication/*사용자가 입력한 아이디 비번이 담겨 있음*/) throws AuthenticationException {
 
@@ -45,7 +49,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
+        return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
 
 /*
