@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
@@ -27,6 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationDetailsSource formWebAuthenticationDetails;
     @Autowired
     private AuthenticationSuccessHandler formAuthenticationSuccessHandler;
+
+    @Autowired
+    private AuthenticationFailureHandler formAuthenticationFailurHandler;
   @Autowired
   private UserDetailsService userDetailsService; //우리가 만든 UserDetailsService 사용
 
@@ -55,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/users","/error").permitAll() //webingore과 다르게 permitAll은 보안 필터를 거쳐서 확인함
+                .antMatchers("/", "/users","/error", "user/login/**","/login*").permitAll() //webingore과 다르게 permitAll은 보안 필터를 거쳐서 확인함
                 .antMatchers("/mypage").hasRole("USER")
                 .antMatchers("/messages").hasRole("MANAGER")
                 .antMatchers("/config").hasRole("ADMIN")
@@ -67,6 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login_proc")
                 .authenticationDetailsSource(formWebAuthenticationDetails)//이것을 통해서 formWebAuthenticationDetails 생성
                 .successHandler(formAuthenticationSuccessHandler)
+                .failureHandler(formAuthenticationFailurHandler)
                 .defaultSuccessUrl("/")
                 .permitAll()
                 ;

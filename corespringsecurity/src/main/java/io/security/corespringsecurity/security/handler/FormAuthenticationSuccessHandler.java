@@ -28,9 +28,10 @@ public class FormAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
 
     @Override
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException {
-
+        //기본 url 설정, savedRequest가 null일 경우 설정한 페이지로 보내기 위함이다.
         setDefaultTargetUrl("/");
 
+        // 사용자가 인증을 시도하기 이전에 접근을 시도했던 자원이 없을경우 savedRequest는 null로 반환된다.
         SavedRequest savedRequest = requestCache.getRequest(request, response); //예외나 로그인 등으로 이전 정보가 없을때 null일 수 있음
 
         if(savedRequest!=null) {
