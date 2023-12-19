@@ -29,4 +29,5 @@ public class PasswordStrengthMeterTest {
     void meetsOtherCriteria_except_for_number_Then_Normal(){
         assertStrength("ab!@ABqwer", PasswordStrength.NORMAL);
     }
+
 }
