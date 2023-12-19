@@ -47,9 +47,15 @@ public class PasswordStrengthMeterTest {
         assertStrength("",PasswordStrength.INVALID);
     }
 
-    // 대문자를 포함하지 ㅇ낳고 나머지 조건을 충족하는 경우
+    // 대문자를 포함하지 ㅇ낳고 나머지 조건을 충족하는 경링
     @Test
     void meetsOtherCriteria_except_for_Uppercase_Then_Normal() {
         assertStrength("ab12!@df", PasswordStrength.NORMAL);
+    }
+
+    // 길이가 8글자 이상인 조건만 충족하는 경우를 검증하기 위한 테스트 코드
+    @Test
+    void meetsOnlyLengthCriteria_Then_Weak(){
+        assertStrength("abdefghi", PasswordStrength.WEAK);
     }
 }
