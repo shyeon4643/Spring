@@ -3,6 +3,7 @@ package com.tdd.tdd.chap02;
 public class PasswordStrengthMeter {
     public PasswordStrength meter(String s){
         if(s == null || s.isEmpty()) return PasswordStrength.INVALID;
+        int metCounts = getMetCriteriaCounts(s);
         int metCounts = 0;
         if(s.length() >= 8) metCounts++;
         if(meetsContainingNumberCriteria(s)) metCounts++;
@@ -12,6 +13,14 @@ public class PasswordStrengthMeter {
         if(metCounts == 2) return PasswordStrength.NORMAL;
 
         return PasswordStrength.STRONG;
+    }
+
+    private int getMetCriteriaCounts(String s){
+        int metCounts = 0;
+        if(s.length() >= 8) metCounts++;
+        if(meetsContainingNumberCriteria(s)) metCounts++;
+        if(meetsContainingUppercaseCriteria(s)) metCounts++;
+        return metCounts;
     }
 
     private boolean meetsContainingNumberCriteria(String s) {
