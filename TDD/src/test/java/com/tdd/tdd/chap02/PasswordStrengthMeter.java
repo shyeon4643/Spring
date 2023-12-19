@@ -4,9 +4,6 @@ public class PasswordStrengthMeter {
     public PasswordStrength meter(String s){
         if(s == null || s.isEmpty()) return PasswordStrength.INVALID;
         int metCounts = getMetCriteriaCounts(s);
-        if(s.length() >= 8) metCounts++;
-        if(meetsContainingNumberCriteria(s)) metCounts++;
-        if(meetsContainingUppercaseCriteria(s)) metCounts++;
 
         if(metCounts <= 1) return PasswordStrength.WEAK;
         if(metCounts == 2) return PasswordStrength.NORMAL;
