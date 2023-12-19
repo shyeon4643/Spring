@@ -71,4 +71,10 @@ public class PasswordStrengthMeterTest {
         assertStrength("ABZEF", PasswordStrength.WEAK);
     }
 
+    // 아무 조건도 충족하지 않은 경우를 검증하는 테스트 코드 추가
+    @Test
+    void meetsNoCriteria_Then_Weak(){
+        assertStrength("abc", PasswordStrength.WEAK);
+    }
+
 }
