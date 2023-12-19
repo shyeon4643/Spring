@@ -1,12 +1,13 @@
 package com.tdd.tdd.chap02;
 
+import com.tdd.tdd.PasswordStrengthMeter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PasswordStrengthMeterTest {
 
-    private  PasswordStrengthMeter meter = new PasswordStrengthMeter();
+    private PasswordStrengthMeter meter = new PasswordStrengthMeter();
 
     private void assertStrength(String password, PasswordStrength expStr) {
         PasswordStrength result = meter.meter(password);

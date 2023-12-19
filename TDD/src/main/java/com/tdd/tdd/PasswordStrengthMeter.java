@@ -1,4 +1,6 @@
-package com.tdd.tdd.chap02;
+package com.tdd.tdd;
+
+import com.tdd.tdd.chap02.PasswordStrength;
 
 public class PasswordStrengthMeter {
     public PasswordStrength meter(String s){
