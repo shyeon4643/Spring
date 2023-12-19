@@ -4,7 +4,6 @@ public class PasswordStrengthMeter {
     public PasswordStrength meter(String s){
         if(s == null || s.isEmpty()) return PasswordStrength.INVALID;
         int metCounts = getMetCriteriaCounts(s);
-        int metCounts = 0;
         if(s.length() >= 8) metCounts++;
         if(meetsContainingNumberCriteria(s)) metCounts++;
         if(meetsContainingUppercaseCriteria(s)) metCounts++;
@@ -31,7 +30,6 @@ public class PasswordStrengthMeter {
         }
         return false;
     }
-
     private boolean meetsContainingUppercaseCriteria(String s){
         for(char ch : s.toCharArray()){
             if(Character.isUpperCase(ch)){
