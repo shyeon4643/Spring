@@ -1,4 +1,4 @@
-package com.tdd.tdd;
+package com.tdd.tdd.chap02;
 
 import com.tdd.tdd.chap02.PasswordStrength;
 

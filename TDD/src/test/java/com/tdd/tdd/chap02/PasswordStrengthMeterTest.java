@@ -1,6 +1,5 @@
 package com.tdd.tdd.chap02;
 
-import com.tdd.tdd.PasswordStrengthMeter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
